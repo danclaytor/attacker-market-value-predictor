@@ -1,0 +1,132 @@
+{
+  "source": "https://github.com/dcaribou/transfermarkt-datasets",
+  "license": "CC0-1.0 per source repository",
+  "duplicate_appearances_removed": 0,
+  "seasons": [
+    {
+      "season": "2022/23",
+      "players_with_appearances": 2721,
+      "excluded_scope": 2219,
+      "excluded_missing_stale_or_nonpositive_value": 63,
+      "invalid_appearance_rows": 0,
+      "included": 439,
+      "valuations_before_performance_end": 33,
+      "max_valuation_age_days_observed": 88,
+      "performance_end": "2023-06-04",
+      "valuation_as_of": "2023-06-23",
+      "games_by_league": {
+        "ES1": 380,
+        "FR1": 380,
+        "GB1": 380,
+        "IT1": 380,
+        "L1": 306
+      }
+    },
+    {
+      "season": "2023/24",
+      "players_with_appearances": 2711,
+      "excluded_scope": 2237,
+      "excluded_missing_stale_or_nonpositive_value": 0,
+      "invalid_appearance_rows": 0,
+      "included": 474,
+      "valuations_before_performance_end": 200,
+      "max_valuation_age_days_observed": 25,
+      "performance_end": "2024-06-02",
+      "valuation_as_of": "2024-06-21",
+      "games_by_league": {
+        "ES1": 380,
+        "FR1": 306,
+        "GB1": 380,
+        "IT1": 380,
+        "L1": 306
+      }
+    },
+    {
+      "season": "2024/25",
+      "players_with_appearances": 2708,
+      "excluded_scope": 2233,
+      "excluded_missing_stale_or_nonpositive_value": 57,
+      "invalid_appearance_rows": 0,
+      "included": 418,
+      "valuations_before_performance_end": 40,
+      "max_valuation_age_days_observed": 85,
+      "performance_end": "2025-05-25",
+      "valuation_as_of": "2025-06-13",
+      "games_by_league": {
+        "ES1": 380,
+        "FR1": 306,
+        "GB1": 380,
+        "IT1": 380,
+        "L1": 306
+      }
+    },
+    {
+      "season": "2025/26",
+      "players_with_appearances": 2684,
+      "excluded_scope": 2194,
+      "excluded_missing_stale_or_nonpositive_value": 1,
+      "invalid_appearance_rows": 0,
+      "included": 489,
+      "valuations_before_performance_end": 1,
+      "max_valuation_age_days_observed": 22,
+      "performance_end": "2026-05-24",
+      "valuation_as_of": "2026-06-12",
+      "games_by_league": {
+        "ES1": 380,
+        "FR1": 305,
+        "GB1": 380,
+        "IT1": 380,
+        "L1": 306
+      }
+    }
+  ],
+  "valuation_rule": {
+    "as_of_days_after_performance_end": 19,
+    "max_age_days": 90,
+    "selection": "Latest record on or before the as-of date, then require positive value and age <= 90 days.",
+    "interpretation": "Contemporaneous estimation of published values around season end; not a strict forecast of later valuation updates.",
+    "freshness_rationale": "A transparent roughly quarterly freshness limit, chosen for data recency rather than model accuracy. Coverage at 30 and 180 days is also reported."
+  },
+  "source_sha256": {
+    "appearances.csv.gz": "e096c2b158fc3d52c4550526c4d4850dd62f31007652f4bcae112eadb1646802",
+    "clubs.csv.gz": "aa57ab56e87faffaea1e8697439a32caf10116d8f2f2dfb3a57193c0bb1d641b",
+    "players.csv.gz": "d22e407981d5b51a79bf8ff59835729f3526f7dc3495a6d8ed2f852ed2e86403",
+    "player_valuations.csv.gz": "608e32e5ad2231074f3505c469ad727be66d7e6efda6af918afd85379439631d"
+  },
+  "notes": [
+    "Domestic league appearances only; season end is the last observed match across the five leagues.",
+    "Target: latest available valuation as of 19 days after season end, retained only if positive and no more than 90 days old at that date.",
+    "The 19-day offset is an as-of cutoff, not a requirement for a new post-season update. It reflects the final available 2025/26 valuation date and is applied consistently to earlier seasons.",
+    "The 90-day limit prevents very stale targets; missing, stale and nonpositive latest records are excluded. League-season coverage and 30/90/180-day freshness sensitivity are in valuation_coverage.csv.",
+    "Some target valuations precede the final performance observations. This is contemporaneous estimation, not a strict forward valuation forecast.",
+    "Positions are from the profile snapshot, not dated position histories. Retrospective sample selection is a limitation.",
+    "Age 18-36; at least 900 minutes; centre-forwards, second strikers, wingers and attacking midfielders.",
+    "2025/26 French league appearances cover 305 distinct games, compared with 306 in a complete 18-team double round-robin. Coverage is near complete, not perfect.",
+    "No earlier market valuation, club value or current market valuation is used as an input."
+  ],
+  "experience": {
+    "definition": "Sum of valid recorded minutes before 1 July at the start of each player-season.",
+    "top_five_competitions": [
+      "GB1",
+      "ES1",
+      "L1",
+      "IT1",
+      "FR1"
+    ],
+    "champions_league_competitions": [
+      "CL"
+    ],
+    "qualifying_rounds_included": false,
+    "earliest_relevant_appearance": "2012-08-10",
+    "invalid_history_records_excluded": 0,
+    "appearance_source_sha256": "e096c2b158fc3d52c4550526c4d4850dd62f31007652f4bcae112eadb1646802",
+    "sample_changed": false,
+    "transformation": "log1p(minutes) for both additional regression inputs",
+    "limitations": [
+      "Observed history starts in 2012; these are not guaranteed full-career totals.",
+      "Zero means no qualifying minutes recorded, not proof of no real experience.",
+      "Current-season minutes never enter either prior-experience total.",
+      "Experience proxies high-level exposure and selection; it does not directly measure reputation."
+    ]
+  }
+}
