@@ -1,0 +1,14 @@
+__pycache__/
+.pytest_cache/
+.ipynb_checkpoints/
+.venv/
+raw_data/
+.streamlit/secrets.toml
+*.log
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+.DS_Store
+Thumbs.db
