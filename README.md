@@ -2,11 +2,15 @@
 
 **Estimating attacking players' market values with linear regression.**
 
+[![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://danclaytor-player-values.streamlit.app/)
+
+**[Try the live app](https://danclaytor-player-values.streamlit.app/)** — runs in your browser; no installation required.
+
 An interactive football analytics project comparing a performance-based model with an experience-adjusted model across Europe's five major leagues. Search for a player, change their profile, and explore where the estimates succeed or miss.
 
 ## Explore the project
 
-- **Streamlit app:** `app.py` — player search, hypothetical profiles, interactive charts and downloadable comparisons. Public deployment is pending; there is no live app URL yet.
+- **Streamlit app:** `app.py` — player search, hypothetical profiles, interactive charts and downloadable comparisons. [Open the public app](https://danclaytor-player-values.streamlit.app/).
 - **Research notebook:** [Full analysis](Predicting%20the%20Market%20Value%20of%20Attacking%20Players%20Using%20Linear%20Regression.ipynb).
 - **Results:** [Comparison chart](reports/accuracy.png), [model metrics](reports/metrics.csv) and [player comparisons](reports/player_comparisons.csv).
 
@@ -98,7 +102,7 @@ These commands overwrite prepared data and reports. Upstream files can change; t
 
 ## Publish a browser-accessible app
 
-GitHub stores the source; Streamlit Community Cloud runs the Python app. See [DEPLOYMENT.md](DEPLOYMENT.md) for the exact repository settings and deployment steps. After deployment, add the verified live URL at the top of this README and to the repository's About website field so visitors can launch it directly.
+GitHub stores the source; Streamlit Community Cloud runs the Python app. See [DEPLOYMENT.md](DEPLOYMENT.md) for the exact repository settings and deployment steps. The public app is available from the launch link above and the repository's About website field.
 
 ## Project structure
 
@@ -119,3 +123,4 @@ GitHub stores the source; Streamlit Community Cloud runs the Python app. See [DE
 Contract length, wages, injuries and other valuation drivers are absent. Recorded experience starts in 2012 and may not cover full careers. Position labels come from a profile snapshot. League-season coverage has gaps, particularly Ligue 1 in 2022/23 and Serie A in 2024/25; valuation freshness also affects inclusion. Exponentiating a log regression does not produce an unbiased conditional mean or directly optimise euro MAE. The bootstrap is not a player prediction interval and does not capture all shared league effects. An untouched future season remains the next evaluation.
 
 Data comes from [dcaribou/transfermarkt-datasets](https://github.com/dcaribou/transfermarkt-datasets), based on Transfermarkt. The bundled provenance records the source repository's CC0-1.0 designation; this does not imply ownership of Transfermarkt branding or endorsement. This project is independent of Transfermarkt. No separate open-source licence has been assigned to this project's original code.
+

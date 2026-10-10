@@ -2,7 +2,11 @@
 
 ## Deployment status
 
-Prepared for deployment; GitHub publication and a verified public app URL are still pending.
+Live app: https://danclaytor-player-values.streamlit.app/
+
+Repository: https://github.com/danclaytor/attacker-market-value-predictor
+
+Deployment: `main` branch, `app.py`, Python 3.12.
 
 ## Publish the repository
 
@@ -26,3 +30,4 @@ The repository hosts the code; visitors use the deployed `streamlit.app` URL. Gi
 Push changes to the deployed branch to update the app. Keep runtime packages in `requirements.txt`; optional research/report tooling lives in `requirements-analysis.txt`. Use the bundled data to avoid live downloads during app startup. Run `python -m pytest -q` before publishing changes. A sleeping Community Cloud app may take time to wake on the next visit.
 
 Official guide: https://docs.streamlit.io/deploy/streamlit-community-cloud/deploy-your-app/deploy
+
