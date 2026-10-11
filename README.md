@@ -34,9 +34,9 @@ reduction, conditional on the fitted models. It is not a player prediction inter
 features, although that season never enters coefficient fitting. An untouched later
 season is still needed. The target is a Transfermarkt valuation, not a transfer fee.
 
-The [notebook](Predicting%20the%20Market%20Value%20of%20Attacking%20Players%20Using%20Linear%20Regression.ipynb)
+The [notebook](notebooks/market_value_analysis.ipynb)
 contains the full analysis, including player examples, league breakdowns and
-earlier-season checks. Exported tables, figures and a one-page summary are in `reports/`.
+earlier-season checks. Full player comparisons can be downloaded from the app.
 
 ## Data and limitations
 
@@ -81,14 +81,13 @@ downloads are needed. Its Streamlit Community Cloud deployment uses `main`,
 ```bash
 python -m pip install -r requirements-dev.txt
 python -m pytest -q
-python run_analysis.py
 ```
 
 Tests check independent OLS agreement, training/evaluation separation, experience
 chronology, valuation boundaries and the interactive profile workflow. GitHub
-Actions runs them on Python 3.12. `run_analysis.py` rebuilds the tables and figures.
-For notebook execution and the PDF summary, install `requirements-analysis.txt`;
-`python build_report.py` rebuilds the summary after running the analysis.
+Actions runs them on Python 3.12. To rerun the analysis, install
+`requirements-analysis.txt` and run `notebooks/market_value_analysis.ipynb` from
+top to bottom in a Jupyter-compatible editor using the project environment.
 
 To rebuild the prepared data, install the analysis requirements and run:
 
@@ -96,8 +95,8 @@ To rebuild the prepared data, install the analysis requirements and run:
 python preparation/download_data.py --destination raw_data
 python preparation/prepare_data.py --raw raw_data
 python preparation/add_experience.py --raw raw_data
-python run_analysis.py
 ```
 
-These commands overwrite prepared data and reports. Upstream downloads may change;
+These commands overwrite the prepared data. Rerun the notebook afterwards.
+Upstream downloads may change;
 the bundled snapshot is the reproducible input for the reported results.
