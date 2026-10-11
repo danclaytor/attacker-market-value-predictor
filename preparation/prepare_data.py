@@ -1,6 +1,6 @@
 """Build a small, dated player-season dataset from public Transfermarkt CSVs.
 
-Usage: python preparation/prepare_data.py --raw ../../work/data
+Usage: python preparation/prepare_data.py --raw raw_data
 The raw folder must contain players, appearances, player_valuations and clubs.csv.gz.
 Only actual historical appearances determine league and club; current club is not used.
 """

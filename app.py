@@ -165,7 +165,7 @@ Some valuations precede the final performance observations. This estimates publi
 
 **What the comparison can establish**
 
-2025/26 never enters coefficient fitting, but its errors motivated the experience features. It is therefore a development evaluation, not a pristine final test. A genuinely untouched future season remains the next test.
+2025/26 never enters coefficient fitting, but its errors motivated the experience features. It is therefore a development evaluation, not an untouched final test. A later season is needed for that.
 
 Contract length, wages, injury history and other valuation drivers are absent. Experience records begin in 2012 and may omit earlier careers. Position labels come from a profile snapshot. Coverage and valuation-update selection can affect results. Log regression does not directly minimise euro MAE; its exponentiated output is not an unbiased mean-value forecast.
 

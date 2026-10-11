@@ -1,77 +1,82 @@
-# WHAT IS HE WORTH?
+# Football market-value predictor
 
-**Estimating attacking players' market values with linear regression.**
+Two linear regression models estimate attacking players' published market values
+across Europe's five major leagues. The comparison tests whether prior top-five
+league and Champions League experience improves estimates based on current-season
+performance.
 
-[![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://danclaytor-player-values.streamlit.app/)
+[Open the interactive app](https://danclaytor-player-values.streamlit.app/) to search
+for a player, adjust a hypothetical profile and compare estimates. Scenario changes
+do not alter the data or evaluation results.
 
-**[Try the live app](https://danclaytor-player-values.streamlit.app/)** — runs in your browser; no installation required.
+## Method and results
 
-An interactive football analytics project comparing a performance-based model with an experience-adjusted model across Europe's five major leagues. Search for a player, change their profile, and explore where the estimates succeed or miss.
+Both models fit ordinary least squares to log market value, then exponentiate the
+predictions without a smearing correction or cap.
 
-## Explore the project
-
-- **Streamlit app:** `app.py` — player search, hypothetical profiles, interactive charts and downloadable comparisons. [Open the public app](https://danclaytor-player-values.streamlit.app/).
-- **Research notebook:** [Full analysis](Predicting%20the%20Market%20Value%20of%20Attacking%20Players%20Using%20Linear%20Regression.ipynb).
-- **Results:** [Comparison chart](reports/accuracy.png), [model metrics](reports/metrics.csv) and [player comparisons](reports/player_comparisons.csv).
-
-![Published values versus model estimates](reports/accuracy.png)
-
-## Main result
-
-On 489 eligible attackers in the 2025/26 development evaluation:
+- **Baseline:** age centred at 25, centred age squared, log(minutes / 1,800), goals
+  and assists per 90, league and attacking position.
+- **Experience-adjusted:** the baseline plus log(1 + prior top-five-league minutes)
+  and log(1 + prior Champions League minutes), recorded before the season begins.
+- **Training:** 1,331 player-seasons from 2022/23–2024/25.
+- **Evaluation:** 489 players from 2025/26. Players can appear in both periods.
 
 | Model | Mean absolute error | Median absolute error |
 | --- | ---: | ---: |
 | Baseline | €10.39m | €4.53m |
 | Experience-adjusted | €8.70m | €3.96m |
 
-Adding prior high-level experience reduces mean absolute error by **€1.70m (16.3%)**. Individual error improves for **57.7%** of players. A paired player bootstrap gives a 95% interval of €1.11m–€2.33m for the reduction in mean absolute error, conditional on these fitted models.
+Mean absolute error falls by 16.3%; 57.7% of players have lower individual error.
+The paired player bootstrap gives a 95% interval of €1.11m–€2.33m for the MAE
+reduction, conditional on the fitted models. It is not a player prediction interval.
 
-**This is a development evaluation, not an untouched final test.** The 2025/26 errors helped motivate the experience features, although that season never enters coefficient fitting. The target is a published Transfermarkt valuation, not a transfer fee or a guaranteed future sale price.
+**This is a development evaluation.** The 2025/26 errors motivated the experience
+features, although that season never enters coefficient fitting. An untouched later
+season is still needed. The target is a Transfermarkt valuation, not a transfer fee.
 
-## Run locally
+The [notebook](Predicting%20the%20Market%20Value%20of%20Attacking%20Players%20Using%20Linear%20Regression.ipynb)
+contains the full analysis, including player examples, league breakdowns and
+earlier-season checks. Exported tables, figures and a one-page summary are in `reports/`.
 
-Use **Python 3.12**. From this project's root folder:
+## Data and limitations
+
+Eligible players are attackers aged 18–36 with at least 900 domestic league minutes.
+The target is the latest positive valuation available 19 days after season end,
+provided the latest record is no more than 90 days old. A newer zero or missing
+value does not permit reusing an older positive value. Some valuations predate the
+final performance observations, so this estimates values around season end rather
+than strictly forecasting later updates.
+
+Contract length, wages and injuries are absent. Experience records start in 2012;
+position labels come from a profile snapshot. Missing or stale valuations affect
+coverage, particularly Ligue 1 in 2022/23 and Serie A in 2024/25. Exponentiating a
+log regression does not estimate an unbiased conditional mean or minimise euro MAE.
+
+Data comes from [dcaribou/transfermarkt-datasets](https://github.com/dcaribou/transfermarkt-datasets).
+[data/source_notes.json](data/source_notes.json) records preparation rules, source
+hashes and the source repository's CC0-1.0 designation. This independent project is
+not endorsed by Transfermarkt. No separate licence has been assigned to the code.
+Codex assisted with data preparation, implementation, troubleshooting and testing.
+
+## Run and reproduce
+
+Use Python 3.12 from the project folder:
 
 ```bash
 python -m venv .venv
 ```
 
-Activate the environment:
-
-```powershell
-# Windows PowerShell
-.\.venv\Scripts\Activate.ps1
-```
-
-```bash
-# macOS / Linux
-source .venv/bin/activate
-```
-
-Then install and launch:
+Activate with `.\.venv\Scripts\Activate.ps1` in PowerShell or
+`source .venv/bin/activate` on macOS/Linux, then run:
 
 ```bash
 python -m pip install -r requirements.txt
 python -m streamlit run app.py
 ```
 
-The prepared data is bundled. No API keys, database, or live downloads are needed to use the app. Models fit from the bundled snapshot and are cached on startup. Hypothetical inputs stay in the visitor's session; they do not change the dataset.
-
-## Method
-
-Both models use ordinary least squares on log market value, with predictions exponentiated back to euros.
-
-- **Baseline:** age, age squared, log season minutes, goals per 90, assists per 90, league and attacking position.
-- **Experience-adjusted:** the baseline plus log(1 + prior top-five-league minutes) and log(1 + prior Champions League minutes).
-- **Training:** 1,331 player-seasons from 2022/23–2024/25.
-- **Evaluation:** 489 players from 2025/26.
-- **Eligibility:** attackers aged 18–36, at least 900 domestic league minutes, and a positive valuation no more than 90 days old at the cutoff.
-- **Target timing:** latest recorded valuation available 19 days after the end of the performance season. Some valuations predate the season's final matches, so this is contemporaneous estimation rather than strict forward forecasting.
-
-Experience includes only recorded minutes before the season starts. Previous market value is not a feature. Earlier-season checks, league breakdowns and freshness-coverage comparisons are included in the app and reports.
-
-## Reproduce and test
+The app fits and caches models from the bundled data; no credentials or live
+downloads are needed. Its Streamlit Community Cloud deployment uses `main`,
+`app.py` and Python 3.12.
 
 ```bash
 python -m pip install -r requirements-dev.txt
@@ -79,48 +84,20 @@ python -m pytest -q
 python run_analysis.py
 ```
 
-Tests cover independent OLS agreement, training/evaluation separation, experience chronology, valuation boundaries, invalid inputs, and the app's scenario/reset/player-selection flow. GitHub Actions runs the test suite on Python 3.12.
+Tests check independent OLS agreement, training/evaluation separation, experience
+chronology, valuation boundaries and the interactive profile workflow. GitHub
+Actions runs them on Python 3.12. `run_analysis.py` rebuilds the tables and figures.
+For notebook execution and the PDF summary, install `requirements-analysis.txt`;
+`python build_report.py` rebuilds the summary after running the analysis.
 
-Optional notebook and PDF tooling:
-
-```bash
-python -m pip install -r requirements-analysis.txt
-python build_report.py
-```
-
-To rebuild the prepared snapshot from upstream source files:
+To rebuild the prepared data, install the analysis requirements and run:
 
 ```bash
-python -m pip install -r requirements-analysis.txt
 python preparation/download_data.py --destination raw_data
 python preparation/prepare_data.py --raw raw_data
 python preparation/add_experience.py --raw raw_data
 python run_analysis.py
 ```
 
-These commands overwrite prepared data and reports. Upstream files can change; the bundled CSV is the reproducible input for this release. Original source hashes and preparation notes are recorded in [source_notes.json](data/source_notes.json).
-
-## Publish a browser-accessible app
-
-GitHub stores the source; Streamlit Community Cloud runs the Python app. See [DEPLOYMENT.md](DEPLOYMENT.md) for the exact repository settings and deployment steps. The public app is available from the launch link above and the repository's About website field.
-
-## Project structure
-
-| Path | Purpose |
-| --- | --- |
-| `app.py` | Streamlit interface |
-| `modelling.py` | Validation, model fitting and predictions |
-| `evaluation.py` | Metrics, bootstrap and temporal checks |
-| `charts.py`, `presentation.py` | Shared charts and display labels |
-| `data/` | Prepared snapshot and provenance |
-| `preparation/` | Download and preparation scripts |
-| `run_analysis.py` | Rebuild comparison tables and figures |
-| `reports/` | Exported results and summary report |
-| `tests/` | Model and app regression tests |
-
-## Limitations and attribution
-
-Contract length, wages, injuries and other valuation drivers are absent. Recorded experience starts in 2012 and may not cover full careers. Position labels come from a profile snapshot. League-season coverage has gaps, particularly Ligue 1 in 2022/23 and Serie A in 2024/25; valuation freshness also affects inclusion. Exponentiating a log regression does not produce an unbiased conditional mean or directly optimise euro MAE. The bootstrap is not a player prediction interval and does not capture all shared league effects. An untouched future season remains the next evaluation.
-
-Data comes from [dcaribou/transfermarkt-datasets](https://github.com/dcaribou/transfermarkt-datasets), based on Transfermarkt. The bundled provenance records the source repository's CC0-1.0 designation; this does not imply ownership of Transfermarkt branding or endorsement. This project is independent of Transfermarkt. No separate open-source licence has been assigned to this project's original code.
-
+These commands overwrite prepared data and reports. Upstream downloads may change;
+the bundled snapshot is the reproducible input for the reported results.

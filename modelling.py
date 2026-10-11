@@ -40,7 +40,7 @@ class ValueModel:
     training_rows: int
 
     def design(self, rows):
-        """Explicit reference dummies preserve the previous specification exactly."""
+        """Build the numeric features and reference-category dummy variables."""
         age = rows.age.astype(float) - 25
         x = pd.DataFrame({'age_minus_25': age, 'age_squared': age ** 2,
                           'log_minutes': np.log(rows.minutes.astype(float) / 1800),
@@ -60,7 +60,7 @@ class ValueModel:
         return x
 
     def predict(self, rows):
-        # Preserve direct exponentiation: no smearing adjustment or clipping.
+        # Direct exponentiation, without a smearing adjustment or clipping.
         return np.exp(self.estimator.predict(self.design(rows)))
 
     def predict_profile(self, profile):

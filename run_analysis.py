@@ -20,8 +20,10 @@ def main():
     scores.to_csv(reports/'metrics.csv')
     groups = subgroup_results(predictions)
     groups.to_csv(reports/'subgroup_checks.csv', index=False)
-    temporal_checks(data).to_csv(reports/'temporal_checks.csv', index=False)
-    (reports/'bootstrap.json').write_text(json.dumps(paired_bootstrap(predictions), indent=2), encoding='utf-8')
+    temporal = temporal_checks(data)
+    temporal.to_csv(reports/'temporal_checks.csv', index=False)
+    bootstrap = paired_bootstrap(predictions)
+    (reports/'bootstrap.json').write_text(json.dumps(bootstrap, indent=2), encoding='utf-8')
     examples = player_examples(predictions)
     examples.to_csv(reports/'player_examples.csv', index=False)
     accuracy_figure(predictions).savefig(reports/'accuracy.png', dpi=170)
@@ -29,8 +31,8 @@ def main():
     player_figure(examples).savefig(reports/'player_examples.png', dpi=170)
     print(scores.to_string())
     print(groups.to_string(index=False))
-    print(temporal_checks(data).to_string(index=False))
-    print(paired_bootstrap(predictions))
+    print(temporal.to_string(index=False))
+    print(bootstrap)
 
 if __name__ == '__main__':
     main()

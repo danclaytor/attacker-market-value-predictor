@@ -1,9 +1,7 @@
-import json
-from pathlib import Path
 import numpy as np
 import pandas as pd
 import pytest
-from modelling import load_data, fit_models, TARGET, ROOT
+from modelling import load_data, fit_models, TARGET
 from evaluation import compare, paired_bootstrap, temporal_checks, player_examples
 
 @pytest.fixture(scope='module')
