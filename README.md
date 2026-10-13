@@ -27,7 +27,7 @@ predictions without a smearing correction or cap.
 | Experience-adjusted | €8.70m | €3.96m |
 
 Mean absolute error falls by 16.3%; 57.7% of players have lower individual error.
-The paired player bootstrap gives a 95% interval of €1.11m–€2.33m for the MAE
+The paired player bootstrap gives a 95% interval of €1.11m to €2.33m for the MAE
 reduction, conditional on the fitted models. It is not a player prediction interval.
 
 **This is a development evaluation.** The 2025/26 errors motivated the experience
