@@ -60,41 +60,43 @@ Codex assisted with data preparation, implementation, troubleshooting and testin
 
 ## Run and reproduce
 
-Use Python 3.12 from the project folder:
+Use Python 3.12. From the project folder, run these commands in PowerShell:
 
-```bash
+```powershell
 python -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+.\.venv\Scripts\python.exe -m streamlit run app.py
 ```
 
-Activate with `.\.venv\Scripts\Activate.ps1` in PowerShell or
-`source .venv/bin/activate` on macOS/Linux, then run:
-
-```bash
-python -m pip install -r requirements.txt
-python -m streamlit run app.py
-```
+On macOS/Linux, replace `.\.venv\Scripts\python.exe` with `.venv/bin/python`
+in the commands below and above. Environment activation is not required.
 
 The app fits and caches models from the bundled data; no credentials or live
 downloads are needed. Its Streamlit Community Cloud deployment uses `main`,
 `app.py` and Python 3.12.
 
-```bash
-python -m pip install -r requirements-dev.txt
-python -m pytest -q
+```powershell
+.\.venv\Scripts\python.exe -m pip install -r requirements-dev.txt
+.\.venv\Scripts\python.exe -m pytest -q
 ```
 
 Tests check independent OLS agreement, training/evaluation separation, experience
 chronology, valuation boundaries and the interactive profile workflow. GitHub
-Actions runs them on Python 3.12. To rerun the analysis, install
-`requirements-analysis.txt` and run `notebooks/market_value_analysis.ipynb` from
-top to bottom in a Jupyter-compatible editor using the project environment.
+Actions runs them on Python 3.12. To rerun the analysis, install its dependencies:
+
+```powershell
+.\.venv\Scripts\python.exe -m pip install -r requirements-analysis.txt
+```
+
+Then run `notebooks/market_value_analysis.ipynb` from top to bottom in a
+Jupyter-compatible editor, selecting `.venv` as the notebook's Python environment.
 
 To rebuild the prepared data, install the analysis requirements and run:
 
-```bash
-python preparation/download_data.py --destination raw_data
-python preparation/prepare_data.py --raw raw_data
-python preparation/add_experience.py --raw raw_data
+```powershell
+.\.venv\Scripts\python.exe preparation/download_data.py --destination raw_data
+.\.venv\Scripts\python.exe preparation/prepare_data.py --raw raw_data
+.\.venv\Scripts\python.exe preparation/add_experience.py --raw raw_data
 ```
 
 These commands overwrite the prepared data. Rerun the notebook afterwards.
